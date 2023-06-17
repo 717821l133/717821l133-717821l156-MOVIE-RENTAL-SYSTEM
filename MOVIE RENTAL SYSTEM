@@ -1,0 +1,201 @@
+import java.util.ArrayList;
+
+import java.util.List;
+
+import java.util.Scanner;
+
+class Movie {
+
+    private String title;
+
+    private boolean rented;
+
+    public Movie(String title) {
+
+        this.title = title;
+
+        this.rented = false;
+
+    }
+
+    public String getTitle() {
+
+        return title;
+
+    }
+
+    public boolean isRented() {
+
+        return rented;
+
+    }
+
+    public void setRented(boolean rented) {
+
+        this.rented = rented;
+
+    }
+
+}
+
+class MovieRentalSystem {
+
+    private List<Movie> movies;
+
+    public MovieRentalSystem() {
+
+        movies = new ArrayList<>();
+
+    }
+
+    public void addMovie(String title) {
+
+        Movie movie = new Movie(title);
+
+        movies.add(movie);
+
+    }
+
+    public void rentMovie(String title) {
+
+        for (Movie movie : movies) {
+
+            if (movie.getTitle().equals(title) && !movie.isRented()) {
+
+                movie.setRented(true);
+
+                System.out.println("Movie rented: " + title);
+
+                return;
+
+            }
+
+        }
+
+        System.out.println("Movie not available for rent: " + title);
+
+    }
+
+    public void returnMovie(String title) {
+
+        for (Movie movie : movies) {
+
+            if (movie.getTitle().equals(title) && movie.isRented()) {
+
+                movie.setRented(false);
+
+                System.out.println("Movie returned: " + title);
+
+                return;
+
+            }
+
+        }
+
+        System.out.println("Movie not rented or not found: " + title);
+
+    }
+
+    public void listMovies() {
+
+        System.out.println("Available movies:");
+
+        for (Movie movie : movies) {
+
+            if (!movie.isRented()) {
+
+                System.out.println(movie.getTitle());
+
+            }
+
+        }
+
+    }
+
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        MovieRentalSystem rentalSystem = new MovieRentalSystem();
+
+        rentalSystem.addMovie("Movie 1");
+
+        rentalSystem.addMovie("Movie 2");
+
+        rentalSystem.addMovie("Movie 3");
+
+        Scanner scanner = new Scanner(System.in);
+
+        int choice;
+
+        do {
+
+            System.out.println("=== Movie Rental System ===");
+
+            System.out.println("1. Rent a movie");
+
+            System.out.println("2. Return a movie");
+
+            System.out.println("3. List available movies");
+
+            System.out.println("0. Exit");
+
+            System.out.print("Enter your choice: ");
+
+            choice = scanner.nextInt();
+
+            switch (choice) {
+
+                case 1:
+
+                    System.out.print("Enter the movie title to rent: ");
+
+                    scanner.nextLine();
+
+                    String rentTitle = scanner.nextLine();
+
+                    rentalSystem.rentMovie(rentTitle);
+
+                    break;
+
+                case 2:
+
+                    System.out.print("Enter the movie title to return: ");
+
+                    scanner.nextLine();
+
+                    String returnTitle = scanner.nextLine();
+
+                    rentalSystem.returnMovie(returnTitle);
+
+                    break;
+
+                case 3:
+
+                    rentalSystem.listMovies();
+
+                    break;
+
+                case 0:
+
+                    System.out.println("Exiting the system...");
+
+                    break;
+
+                default:
+
+                    System.out.println("Invalid choice. Please try again.");
+
+            }
+
+            System.out.println();
+
+        } while (choice != 0);
+
+        scanner.close();
+
+    }
+
+}
